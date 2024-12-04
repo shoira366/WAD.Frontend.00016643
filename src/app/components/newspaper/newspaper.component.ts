@@ -30,10 +30,11 @@ export class NewspaperComponent implements OnInit {
     this.newspaperService
       .createNewspaper(this.newspaperName, this.newspaperDescription)
       .subscribe({
-        next: (res) => {
+        next: () => {
           alert('Newspaper created successfully');
           this.newspaperName = '';
           this.newspaperDescription = '';
+          this.getAll();
         },
         error: (err) => {
           alert(err.message);
