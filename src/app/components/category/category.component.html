@@ -1,0 +1,48 @@
+<h1>Category Page</h1>
+<form (ngSubmit)="onSubmit()" #categoryForm="ngForm">
+  <div class="form-group">
+    <label for="exampleInputEmail1">Category Name</label>
+    <input type="text" class="form-control" id="categoryName" name="categoryName" required
+      placeholder="Enter category name (eg: Technology, Sport, Fashion)" [(ngModel)]="categoryName">
+    <small id="errorMessage" *ngIf="validationError" class="text-danger">
+      {{ validationError }}
+    </small>
+  </div>
+  <button type="submit" class="btn btn-primary">Add</button>
+</form>
+
+<h3 style="margin-top: 15px;">Category List</h3>
+<ul class="list-group list-group-numbered">
+  <li style="margin-bottom: 5px;" class="list-group-item" *ngFor="let category of categoryArray">
+    <p>{{category.categoryName}}</p>
+    <button data-toggle="modal" data-target="#exampleModalCenter" (click)="onEdit(category.categoryId, category)"
+      class="btn btn-success btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Edit"><i
+        class="fa fa-edit"></i></button>
+    <button style="margin-left: 5px;" class="btn btn-danger btn-sm rounded-0" (click)="onDelete(category.categoryId)"
+      type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>
+  </li>
+</ul>
+
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Category</h5>
+        <button type="button" class="close" (click)="closeModal()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="categoryName">Category Name</label>
+          <input type="text" class="form-control" id="categoryName" [(ngModel)]="categoryObj.name" name="categoryName">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+        <button type="button" class="btn btn-primary" (click)="onSave()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
