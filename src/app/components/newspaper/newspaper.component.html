@@ -1,1 +1,70 @@
-<p>newspaper works!</p>
+<h1>Newspaper Page</h1>
+<form (ngSubmit)="onSubmit()" #categoryForm="ngForm">
+  <div class="form-group">
+    <label for="newspaperName">Newspapaer Name</label>
+    <input type="text" class="form-control" id="newspaperName" name="newspaperName" required
+      placeholder="Enter newspaper name (eg: Daily News)" [(ngModel)]="newspaperName">
+    <!-- <small id="errorMessage" *ngIf="validationError" class="text-danger">
+      {{ validationError }}
+    </small> -->
+  </div>
+  <div class="form-group">
+    <label for="newspaperDesc">Newspapaer Description</label>
+    <input type="text" class="form-control" id="newspaperDesc" name="newspaperDescription" required
+      placeholder="Enter newspaper description" [(ngModel)]="newspaperDescription">
+    <!-- <small id="errorMessage" *ngIf="validationError" class="text-danger">
+      {{ validationError }}
+    </small> -->
+  </div>
+  <button type="submit" class="btn btn-primary">Add</button>
+</form>
+
+<h3 style="margin-top: 15px;">Newspaper List</h3>
+<ol class="list-group list-group" *ngFor="let newspaper of newspaperArray">
+  <li style="margin-bottom: 5px;" class="list-group-item">
+    <h4>{{ newspaper.newspaperName }}</h4>
+    <p>{{ newspaper.newspaperDescription }}</p>
+    <h5>Articles of newspaper</h5>
+    <ul *ngFor="let article of newspaper.articles">
+      <li>
+        <b>{{article.title}}</b>
+        <p>{{article.content}}</p>
+      </li>
+    </ul>
+    <button (click)="onEdit(newspaper.newspaperId, newspaper)" data-toggle="modal" data-target="#exampleModalCenter"
+      class="btn btn-success btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Edit"><i
+        class="fa fa-edit"></i></button>
+    <button style="margin-left: 5px;" class="btn btn-danger btn-sm rounded-0" (click)="onDelete(newspaper.newspaperId)"
+      type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>
+  </li>
+</ol>
+
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Newspaper</h5>
+        <button (click)="closeModal()" type="button" class="close" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="categoryName">Newspaper Name</label>
+          <input type="text" class="form-control" id="newspaperName" [(ngModel)]="newspaperObj.name"
+            name="newspaperName">
+        </div>
+        <div class="form-group">
+          <label for="categoryName">Newspaper Description</label>
+          <input type="text" class="form-control" id="newspaperDescription" [(ngModel)]="newspaperObj.description"
+            name="newspaperDescription">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+        <button type="button" class="btn btn-primary" (click)="onSave()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
