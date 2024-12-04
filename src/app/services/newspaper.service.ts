@@ -7,7 +7,7 @@ import { Newspaper } from '../models/newspaper.js';
   providedIn: 'root',
 })
 export class NewspaperService {
-  private apiUrl = 'https://localhost:7281/api/Newspaper/'; // Replace with your backend URL
+  private apiUrl = 'https://localhost:7281/api/Newspaper/';
 
   constructor(private http: HttpClient) {}
 

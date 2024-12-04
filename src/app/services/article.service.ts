@@ -7,7 +7,7 @@ import { Article } from '../models/article.js';
   providedIn: 'root',
 })
 export class ArticleService {
-  private apiUrl = 'https://localhost:7281/api/Article/'; // Replace with your backend URL
+  private apiUrl = 'https://localhost:7281/api/Article/';
 
   constructor(private http: HttpClient) {}
 
