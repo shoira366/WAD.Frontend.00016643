@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Newspaper-app": {
+    "NewspaperApp": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -20,9 +20,7 @@
             "outputPath": "dist/newspaper-app",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -32,9 +30,14 @@
               }
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/popper.js/dist/umd/popper.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -64,10 +67,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "Newspaper-app:build:production"
+              "buildTarget": "NewspaperApp:build:production"
             },
             "development": {
-              "buildTarget": "Newspaper-app:build:development"
+              "buildTarget": "NewspaperApp:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -78,10 +81,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -90,9 +90,7 @@
                 "input": "public"
               }
             ],
-            "styles": [
-              "src/styles.scss"
-            ],
+            "styles": ["src/styles.scss"],
             "scripts": []
           }
         }
@@ -100,6 +98,6 @@
     }
   },
   "cli": {
-    "analytics": "950b7d62-167c-4c05-897f-6bbb77b204a5"
+    "analytics": "244dfc9f-5e87-4510-a4fd-a2728d6ba590"
   }
 }
