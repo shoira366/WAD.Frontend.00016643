@@ -15,7 +15,7 @@ export class CategoryComponent implements OnInit {
   categoryService = inject(CategoryService);
 
   categoryObj: Category = new Category();
-  categoryName: string = '';
+  name: string = '';
   validationError: string | any = null;
   categoryArray: any[] = [];
 
@@ -25,49 +25,20 @@ export class CategoryComponent implements OnInit {
     this.getAll();
   }
 
-  onEdit(id: number, item: any) {
-    this.openModal();
-    this.getById(id);
-
-    this.categoryObj.id = item.categoryId;
-    this.categoryObj.name = item.categoryName;
-  }
-
-  getById(id: number) {
-    this.categoryService.getById(id).subscribe({
-      next: (res) => {
-        this.categoryObj = { ...this.categoryObj, ...res };
-      },
-    });
-  }
-
-  openModal() {
-    const modal = document.getElementById('exampleModalCenter');
-    if (modal) {
-      this.renderer.addClass(modal, 'show');
-      modal.style.display = 'block';
-    }
-  }
-
-  closeModal() {
-    document.getElementById('exampleModalCenter')?.classList.remove('show');
-    document
-      .getElementById('exampleModalCenter')
-      ?.setAttribute('style', 'display: none;');
-  }
-
+  // 00016643 - Submit method to create a category
   onSubmit() {
     this.validationError = null;
 
-    if (this.categoryName.length < 5) {
+    if (this.name.length < 5) {
       this.validationError =
         'Category name must be at least 5 characters long.';
       return;
     }
-    this.categoryService.createCategory(this.categoryName).subscribe({
-      next: (res) => {
+    this.categoryService.createCategory(this.name).subscribe({
+      next: () => {
         alert('Category created successfully');
-        this.categoryName = '';
+        this.name = '';
+        this.getAll();
       },
       error: (err) => {
         if (err.status === 400 && err.error.errors) {
@@ -77,6 +48,7 @@ export class CategoryComponent implements OnInit {
           this.validationError =
             err.error.message || 'Category name already exists.';
         } else {
+          console.log(err);
           alert('Error in creating category');
           this.validationError =
             'An unexpected error occurred. Please try again.';
@@ -85,6 +57,7 @@ export class CategoryComponent implements OnInit {
     });
   }
 
+  // 00016643 - Get all categories
   getAll() {
     this.categoryService.getAll().subscribe({
       next: (res) => {
@@ -96,6 +69,25 @@ export class CategoryComponent implements OnInit {
     });
   }
 
+  // 00016643 - Get by id method
+  getById(id: number) {
+    this.categoryService.getById(id).subscribe({
+      next: (res) => {
+        this.categoryObj = { ...this.categoryObj, ...res };
+      },
+    });
+  }
+
+  // 000166643 - Edit method to update a category
+  onEdit(id: number, item: any) {
+    this.openModal();
+    this.getById(id);
+
+    this.categoryObj.id = item.categoryId;
+    this.categoryObj.name = item.categoryName;
+  }
+
+  // 00016643 - Save data
   onSave() {
     this.categoryService
       .updateCategory(this.categoryObj.id, this.categoryObj.name)
@@ -111,6 +103,7 @@ export class CategoryComponent implements OnInit {
       });
   }
 
+  // 00016643 - Delete method
   onDelete(id: number) {
     this.categoryService.deleteCategory(id).subscribe({
       next: () => {
@@ -118,5 +111,20 @@ export class CategoryComponent implements OnInit {
         this.getAll();
       },
     });
+  }
+
+  openModal() {
+    const modal = document.getElementById('editCategoryModal');
+    if (modal) {
+      this.renderer.addClass(modal, 'show');
+      modal.style.display = 'block';
+    }
+  }
+
+  closeModal() {
+    document.getElementById('editCategoryModal')?.classList.remove('show');
+    document
+      .getElementById('exampleModalCenter')
+      ?.setAttribute('style', 'display: none;');
   }
 }

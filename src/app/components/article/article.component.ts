@@ -38,28 +38,7 @@ export class ArticleComponent implements OnInit {
     this.getCategories();
   }
 
-  getNewspapers() {
-    this.newspaperService.getAll().subscribe({
-      next: (res) => {
-        this.newspaperArray = res;
-      },
-      error: (err) => {
-        console.error('Error fetching newspapers:', err);
-      },
-    });
-  }
-
-  getCategories() {
-    this.categoryService.getAll().subscribe({
-      next: (res) => {
-        this.categoryArray = res;
-      },
-      error: (err) => {
-        console.error('Error fetching categories:', err);
-      },
-    });
-  }
-
+  // 00016643 - Submit method to create an article
   onSubmit() {
     this.articleService
       .createArticle(
@@ -79,6 +58,7 @@ export class ArticleComponent implements OnInit {
       });
   }
 
+  // 00016643 - Get all articles
   getAll() {
     this.articleService.getAll().subscribe({
       next: async (res) => {
@@ -112,6 +92,16 @@ export class ArticleComponent implements OnInit {
     });
   }
 
+  // 00016643 - Get by id method
+  getById(id: number) {
+    this.articleService.getById(id).subscribe({
+      next: (res) => {
+        this.articleObj = { ...this.articleObj, ...res };
+      },
+    });
+  }
+
+  // 000166643 - Edit method to update an article
   onEdit(id: number, item: any) {
     this.openModal();
     this.getById(id);
@@ -125,6 +115,7 @@ export class ArticleComponent implements OnInit {
     this.articleObj.categoryId = item.categoryId;
   }
 
+  // 00016643 - Save data
   onSave() {
     this.articleService
       .updateArticle(
@@ -146,14 +137,7 @@ export class ArticleComponent implements OnInit {
       });
   }
 
-  getById(id: number) {
-    this.articleService.getById(id).subscribe({
-      next: (res) => {
-        this.articleObj = { ...this.articleObj, ...res };
-      },
-    });
-  }
-
+  // 00016643 - Delete method
   onDelete(id: number) {
     this.articleService.deleteArticle(id).subscribe({
       next: () => {
@@ -175,6 +159,7 @@ export class ArticleComponent implements OnInit {
     );
   }
 
+  // 00016643 - Update ArticleList to show all detailed information about article
   updateArticleDetails() {
     this.articleArray = this.articleArray.map((article) => ({
       ...article,
@@ -187,13 +172,38 @@ export class ArticleComponent implements OnInit {
     }));
   }
 
+  // 00016643 - Get value when choose select option
   onSelectionChange() {
     this.selectedCategory;
     this.selectedNewspaper;
   }
 
+  // 00016643 - Get all newspapers for selection
+  getNewspapers() {
+    this.newspaperService.getAll().subscribe({
+      next: (res) => {
+        this.newspaperArray = res;
+      },
+      error: (err) => {
+        console.error('Error fetching newspapers:', err);
+      },
+    });
+  }
+
+  // 00016643 - Get all categories for selection
+  getCategories() {
+    this.categoryService.getAll().subscribe({
+      next: (res) => {
+        this.categoryArray = res;
+      },
+      error: (err) => {
+        console.error('Error fetching categories:', err);
+      },
+    });
+  }
+
   openModal() {
-    const modal = document.getElementById('exampleModalCenter');
+    const modal = document.getElementById('editArticleModal');
     if (modal) {
       this.renderer.addClass(modal, 'show');
       modal.style.display = 'block';
@@ -201,9 +211,9 @@ export class ArticleComponent implements OnInit {
   }
 
   closeModal() {
-    document.getElementById('exampleModalCenter')?.classList.remove('show');
+    document.getElementById('editArticleModal')?.classList.remove('show');
     document
-      .getElementById('exampleModalCenter')
+      .getElementById('editArticleModal')
       ?.setAttribute('style', 'display: none;');
   }
 }

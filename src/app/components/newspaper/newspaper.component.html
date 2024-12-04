@@ -4,17 +4,11 @@
     <label for="newspaperName">Newspapaer Name</label>
     <input type="text" class="form-control" id="newspaperName" name="newspaperName" required
       placeholder="Enter newspaper name (eg: Daily News)" [(ngModel)]="newspaperName">
-    <!-- <small id="errorMessage" *ngIf="validationError" class="text-danger">
-      {{ validationError }}
-    </small> -->
   </div>
   <div class="form-group">
     <label for="newspaperDesc">Newspapaer Description</label>
     <input type="text" class="form-control" id="newspaperDesc" name="newspaperDescription" required
       placeholder="Enter newspaper description" [(ngModel)]="newspaperDescription">
-    <!-- <small id="errorMessage" *ngIf="validationError" class="text-danger">
-      {{ validationError }}
-    </small> -->
   </div>
   <button type="submit" class="btn btn-primary">Add</button>
 </form>
@@ -39,7 +33,7 @@
   </li>
 </ol>
 
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+<div class="modal fade" id="editNewspaperModal" tabindex="-1" role="dialog" aria-labelledby="editNewspaperModalTitle"
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">

@@ -2,8 +2,8 @@
 <form (ngSubmit)="onSubmit()" #categoryForm="ngForm">
   <div class="form-group">
     <label for="exampleInputEmail1">Category Name</label>
-    <input type="text" class="form-control" id="categoryName" name="categoryName" required
-      placeholder="Enter category name (eg: Technology, Sport, Fashion)" [(ngModel)]="categoryName">
+    <input type="text" class="form-control" id="categoryName" name="name" required
+      placeholder="Enter category name (eg: Technology, Sport, Fashion)" [(ngModel)]="name">
     <small id="errorMessage" *ngIf="validationError" class="text-danger">
       {{ validationError }}
     </small>
@@ -23,7 +23,7 @@
   </li>
 </ul>
 
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+<div class="modal fade" id="editCategoryModal" tabindex="-1" role="dialog" aria-labelledby="editCategoryModalTitle"
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">

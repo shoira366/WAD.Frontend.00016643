@@ -16,7 +16,6 @@ export class NewspaperComponent implements OnInit {
 
   newspaperObj: Newspaper = new Newspaper();
   newspaperArray: any[] = [];
-  validationError: string | any = null;
   newspaperName: string = '';
   newspaperDescription: string = '';
 
@@ -26,21 +25,24 @@ export class NewspaperComponent implements OnInit {
     this.getAll();
   }
 
-  openModal() {
-    const modal = document.getElementById('exampleModalCenter');
-    if (modal) {
-      this.renderer.addClass(modal, 'show');
-      modal.style.display = 'block';
-    }
+  // 00016643 - Submit method to create a newspaper
+  onSubmit() {
+    this.newspaperService
+      .createNewspaper(this.newspaperName, this.newspaperDescription)
+      .subscribe({
+        next: (res) => {
+          alert('Newspaper created successfully');
+          this.newspaperName = '';
+          this.newspaperDescription = '';
+        },
+        error: (err) => {
+          alert(err.message);
+          console.log(err);
+        },
+      });
   }
 
-  closeModal() {
-    document.getElementById('exampleModalCenter')?.classList.remove('show');
-    document
-      .getElementById('exampleModalCenter')
-      ?.setAttribute('style', 'display: none;');
-  }
-
+  // 00016643 - Get all newspapers
   getAll() {
     this.newspaperService.getAll().subscribe({
       next: (res) => {
@@ -52,6 +54,7 @@ export class NewspaperComponent implements OnInit {
     });
   }
 
+  // 00016643 - Get by id method
   getById(id: number) {
     this.newspaperService.getById(id).subscribe({
       next: (res) => {
@@ -60,37 +63,7 @@ export class NewspaperComponent implements OnInit {
     });
   }
 
-  onSubmit() {
-    if (this.newspaperName.length < 5) {
-      this.validationError =
-        'Newspaper name must be at least 5 characters long.';
-      return;
-    }
-    this.newspaperService
-      .createNewspaper(this.newspaperName, this.newspaperDescription)
-      .subscribe({
-        next: (res) => {
-          console.log(res);
-          alert('Newspaper created successfully');
-          this.newspaperName = '';
-          this.newspaperDescription = '';
-        },
-        error: (err) => {
-          if (err.status === 400 && err.error.errors) {
-            const errors = Object.values(err.error.errors).flat();
-            this.validationError = errors[0];
-          } else if (err.status === 409) {
-            this.validationError =
-              err.error.message || 'Newspaper name already exists.';
-          } else {
-            alert('Error in creating newspaper');
-            this.validationError =
-              'An unexpected error occurred. Please try again.';
-          }
-        },
-      });
-  }
-
+  // 000166643 - Edit method to update a newspaper
   onEdit(id: number, item: any) {
     this.openModal();
     this.getById(id);
@@ -99,6 +72,7 @@ export class NewspaperComponent implements OnInit {
     this.newspaperObj.description = item.newspaperDescription;
   }
 
+  // 00016643 - Save data
   onSave() {
     this.newspaperService
       .updateNewspaper(
@@ -118,6 +92,7 @@ export class NewspaperComponent implements OnInit {
       });
   }
 
+  // 00016643 - Delete method
   onDelete(id: number) {
     this.newspaperService.deleteNewspaper(id).subscribe({
       next: () => {
@@ -125,5 +100,22 @@ export class NewspaperComponent implements OnInit {
         this.getAll();
       },
     });
+  }
+
+  // 00016643 - Function to open the modal
+  openModal() {
+    const modal = document.getElementById('editNewspaperModal');
+    if (modal) {
+      this.renderer.addClass(modal, 'show');
+      modal.style.display = 'block';
+    }
+  }
+
+  // 00016643 - Function to close the modal
+  closeModal() {
+    document.getElementById('editNewspaperModal')?.classList.remove('show');
+    document
+      .getElementById('exampleModalCenter')
+      ?.setAttribute('style', 'display: none;');
   }
 }
